@@ -2,33 +2,46 @@ program  passwordgenerator;
 
 uses crt;
 
-type
-   yesnoanswer = string[1];
-
 var
-   length	: integer;
-   needsnumber	: yesnoanswer;
-   needsspecial	: yesnoanswer; 
-   hasnumber	: boolean;
-   hasspecial	: boolean;
+   plength  : integer;
+   number   : char;
+   special  : char;
    
-procedure passwordgenerator(passwordlength: integer; hasnumber : boolean; hasspecial : boolean);
-{generates a password based on the length requested.}
+procedure passwordgenerator(plenght : integer; number : char; special : char);
+{generates a password based on the plength requested.}
 			    
-const
-   charpool = 'abcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyz#$%!';
-
 var
-   password : string;
-   i	    : integer;
-   
+   dictionary : array of char;
+   selection  : string;
+   password   : string;
+   i	      : integer;
 
 begin
+   writeln('The procedure parameters are: plength: ', plength, ' number: ', number, ' special: ', special);
    randomize;
+   dictionary := '';
    password := '';
+   { selection := ''; }
 
+   if (number = 'Y') and (special = 'Y') then
+      dictionary := 'abcdefghijklmnopqrstuvwxyzABCDEFHIJKLMNOPQSTUVWXYZ1234567890#$%!'
+   else if (number = 'Y') and (special = 'N') then
+      dictionary := 'abcdefghijklmnopqrstuvwxyzABCDEFHIJKLMNOPQSTUVWXYZ1234567890'
+   else if (number = 'N') and (special = 'Y') then
+      dictionary := 'abcdefghijklmnopqrstuvwxyzABCDEFHIJKLMNOPQSTUVWXYZ#$%!'
+  else
+   dictionary := 'abcdefghijklmnopqrstuvwxyzABCDEFHIJKLMNOPQSTUVWXYZ';
 
-for i := 1 to passwordlength do
+   {'length' is a Pascal function that returns the size of an array}
+   { for i := 0 to length(dictionary) do }
+   {    begin }
+   {    selection := selection + dictionary[i] }
+   {    end; }
+
+   { writeln('Your selection is: ', selection); }
+   { delay(8000); }
+   
+   for i := 1 to plenght do
       begin
 	 {random provides a number and ord converts to a
 	 letter to a number. at the end, the resulting number is
@@ -37,20 +50,22 @@ for i := 1 to passwordlength do
 
          {the password is the result of the random selection
           of a character from a constant named "charpool".}
-	 password := password + charpool[random(56)];
+	 password := password + dictionary[random(length(dictionary))];
+	 clrscr;
 	 gotoxy(40,12);
-	 writeln('processing password...');
+	 writeln('Processing password...');
 	 delay(100);
 	 clrscr;
 	 end;
 
    gotoxy(40,12);
-   writeln('password generated!');
+   writeln('Password generated!');
    delay(3000);
    clrscr;
    gotoxy(40,12);
-   writeln('your password is: ', password);
+   writeln('Your password is: ', password);
    delay(5000);
+   clrscr;
    gotoxy(40,12);
 
 end;
@@ -60,35 +75,33 @@ begin
    textbackground(black);
    textcolor(green);
    gotoxy(40,12);
-   needsnumber := 'n';
-   needsspecial := 'n';
-   writeln('welcome to password generator');
-   delay(1000);
+   writeln('Welcome to password generator');
    gotoxy(40,14);
-   writeln('press any key to continue...');
+   delay(1000);
+   writeln('Press any key to continue...');
    readkey;
    clrscr;
    gotoxy(40,12);
-   write('how long is your password? ');
-   read(length);
+   write('Do you need numbers in your password? [Y/N]  ');
+   readln(number);
    clrscr;
    gotoxy(40,12);
-   write('do you need numbers in your password? [y/n] ');
-   read(needsnumber);
-   if needsnumber = 'y' then
-      hasnumber := true
-   else
-      hasnumber := false;
-   write('do you need special in your password? [y/n] ');
-   read(needsspecial);
-   if needsspecial = 'y' then
-     hasspecial := true
-   else
-      hasspecial := false;
+   write('Do you need special in your password? [Y/N]  ');
+   readln(special);
+   clrscr;
+   gotoxy(40,12);
+   write('How long is your password? ');
+   readln(plength);
+   { writeln('You selections were ', number, ' ',  special, ' ', plength); }
+   { delay(5000); }
+   clrscr;
+   
+   passwordgenerator(plength, number, special);
 
-   { passwordgenerator(length, hasnumber, hasspecial); }
-
+   clrscr;
+   gotoxy(40,12);
    writeln('press any key to exit.');
    readkey;
+   clrscr;
 
 end.
