@@ -1,61 +1,94 @@
-PROGRAM  passwordgenerator;
+program  passwordgenerator;
 
 uses crt;
 
-VAR
-   length : integer;
+type
+   yesnoanswer = string[1];
 
-PROCEDURE passwordgenerator(passwordlength : integer);
-{Generates a password based on the length requested.}
+var
+   length	: integer;
+   needsnumber	: yesnoanswer;
+   needsspecial	: yesnoanswer; 
+   hasnumber	: boolean;
+   hasspecial	: boolean;
+   
+procedure passwordgenerator(passwordlength: integer; hasnumber : boolean; hasspecial : boolean);
+{generates a password based on the length requested.}
+			    
+const
+   charpool = 'abcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyz#$%!';
 
-VAR
+var
    password : string;
    i	    : integer;
+   
 
-BEGIN
+begin
    randomize;
    password := '';
-FOR i := 1 TO passwordlength DO
-      BEGIN
-	 {random provides a number AND ord converts to a
-	 letter TO a number. At the END, the resulting number is
-	 converted back TO a character}
-	 password := password + char(random(26) + ord('a'));
+
+
+for i := 1 to passwordlength do
+      begin
+	 {random provides a number and ord converts to a
+	 letter to a number. at the end, the resulting number is
+	 converted back to a character}
+	 { password := password + char(random(26) + ord('a')); }
+
+         {the password is the result of the random selection
+          of a character from a constant named "charpool".}
+	 password := password + charpool[random(56)];
 	 gotoxy(40,12);
-	 WRITELN('Processing password...');
-	 delay(1000);
+	 writeln('processing password...');
+	 delay(100);
 	 clrscr;
-	 END;
-         gotoxy(40,12);
-         WRITELN('Password generated!');
-         delay(3000);
-	 clrscr;
-         gotoxy(40,12);
-	 WRITELN('Your password is: ', password);
-         delay(5000);
-   	 gotoxy(40,12);
-END;
+	 end;
 
-BEGIN
+   gotoxy(40,12);
+   writeln('password generated!');
+   delay(3000);
+   clrscr;
+   gotoxy(40,12);
+   writeln('your password is: ', password);
+   delay(5000);
+   gotoxy(40,12);
 
+end;
+
+begin
    clrscr;
    textbackground(black);
    textcolor(green);
    gotoxy(40,12);
-   WRITELN('WELCOME TO PASSWORD GENERATOR');
+   needsnumber := 'n';
+   needsspecial := 'n';
+   writeln('welcome to password generator');
    delay(1000);
    gotoxy(40,14);
-   WRITELN('Press any key to continue...');
+   writeln('press any key to continue...');
    readkey;
    clrscr;
    gotoxy(40,12);
-   WRITE('How long is your password? ');
-   READ(length);
+   write('how long is your password? ');
+   read(length);
    clrscr;
    gotoxy(40,12);
-   
-   passwordgenerator(length);
+   write('do you need numbers in your password? [y/n] ');
+   read(needsnumber);
+   if needsnumber = 'y' then
+      hasnumber := true
+   else
+      hasnumber := false;
+   write('do you need special in your password? [y/n] ');
+   read(needsspecial);
+   if needsspecial = 'y' then
+     hasspecial := true
+   else
+      hasspecial := false;
 
-   WRITELN('Press any key to exit.');
+   { passwordgenerator(length, hasnumber, hasspecial); }
+
+   writeln('press any key to exit.');
    readkey;
-END.
+
+end.
