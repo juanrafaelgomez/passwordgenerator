@@ -1,9 +1,11 @@
 {$mode fpc}
-program  passwordgenerator;
+
+{ TODO :: FIX PASSWORDGENERATOR PROCEDURE }
+PROGRAM  passwordgenerator;
 
 uses crt, sysutils, character; 
 
-var
+VAR
    plength   : string;
    number    : char;
    special   : char;
@@ -12,128 +14,117 @@ var
    nlength   : integer;
    error     : integer;
    
-procedure passwordgenerator(plenght : integer; number : char; special : char);
-{generates a password based on lenght, special and numbers.}
+PROCEDURE passwordgenerator(plenght : integer; number : char; special : char);
+{generates a password based on lenght, special AND numbers.}
 			    
-var
-   dictionary : array of char;
-   { selection  : string; }
+VAR
+   dictionary : ARRAY OF char;
    password   : string;
    i	      : integer;
 
-begin
-   writeln('The procedure parameters are: length: ', plength, ' number: ', number, ' special: ', special);
+BEGIN
+   WRITELN('The procedure parameters are: length: ', plength, ' number: ', number, ' special: ', special);
    randomize;
    dictionary := '';
    password := '';
    isanumber := false;
-   { selection := ''; }
 
-   if (number = 'Y') and (special = 'Y') then
+   IF (number = 'Y') AND (special = 'Y') THEN
       dictionary := 'abcdefghijklmnopqrstuvwxyzABCDEFHIJKLMNOPQSTUVWXYZ1234567890#$%!'
-   else if (number = 'Y') and (special = 'N') then
+   ELSE IF (number = 'Y') AND (special = 'N') THEN
       dictionary := 'abcdefghijklmnopqrstuvwxyzABCDEFHIJKLMNOPQSTUVWXYZ1234567890'
-   else if (number = 'N') and (special = 'Y') then
+   ELSE IF (number = 'N') AND (special = 'Y') THEN
       dictionary := 'abcdefghijklmnopqrstuvwxyzABCDEFHIJKLMNOPQSTUVWXYZ#$%!'
-  else
+  ELSE
    dictionary := 'abcdefghijklmnopqrstuvwxyzABCDEFHIJKLMNOPQSTUVWXYZ';
 
-   
-   { for i := 0 to length(dictionary) do }
-   {    begin }
-   {    selection := selection + dictionary[i] }
-   {    end; }
-
-   { writeln('Your selection is: ', selection); }
-   { delay(8000); }
-   
-   for i := 1 to plenght do
-      begin
-	 {random provides a number and ord converts to a
-	 letter to a number. at the end, the resulting number is
-	 converted back to a character}
+  
+   FOR i := 1 TO plenght DO
+      BEGIN
+	 {random provides a number AND ord converts TO a
+	 letter TO a number. at the END, the resulting number is
+	 converted back TO a character}
 	 { password := password + char(random(26) + ord('a')); }
-         {the password is the result of the random selection
-          of a character from a constant named "charpool".}
-	 {'length' is a Pascal function that returns the size of an array}
+         {the password is the result OF the random selection
+          OF a character from a constant named "charpool".}
+	 {'length' is a Pascal FUNCTION that returns the size OF an ARRAY}
 	 password := password + dictionary[random(length(dictionary))];
 	 clrscr;
 	 gotoxy(40,12);
-	 writeln('Processing password...');
+	 WRITELN('Processing password...');
 	 delay(100);
 	 clrscr;
-	 end;
+	 END;
 
    gotoxy(40,12);
-   writeln('Password generated!');
+   WRITELN('Password generated!');
    delay(3000);
    clrscr;
    gotoxy(40,12);
-   writeln('Your password is: ', password);
+   WRITELN('Your password is: ', password);
    delay(5000);
    clrscr;
    gotoxy(40,12);
 
-end;
+END;
 
-begin
+BEGIN
    clrscr;
    textbackground(black);
    textcolor(yellow);
    gotoxy(40,12);
-   write('Welcome to password generator');
+   WRITE('Welcome to password generator');
    gotoxy(40,13);
    delay(1000);
-   write('Press any key to continue...');
+   WRITE('Press any key to continue...');
    gotoxy(40,30);
    readkey;
    clrscr;
    gotoxy(40,29);
 
-   { TODO :: ADD A VERIFICATION USING 'UNTIL, REPEAT' STRUCTURE }
    
-   repeat
+   REPEAT
       clrscr;
       gotoxy(40,12);
-      write('Do you need numbers in your password? [Y/N]  ');
-      readln(number);
-   until (number = 'Y') or (number = 'y') or (number = 'N') or (number = 'n');
+      WRITE('Do you need numbers in your password? [Y/N]  ');
+      READLN(number);
+   UNTIL (number = 'Y') OR (number = 'y') OR (number = 'N') OR (number = 'n');
 
-   repeat
+   REPEAT
       clrscr;
       gotoxy(40,12);
-      write('Do you need special in your password? [Y/N]  ');
-      readln(special);
-   until (special = 'Y') or (special = 'y') or (special = 'N') or (special = 'n');
+      WRITE('Do you need special in your password? [Y/N]  ');
+      READLN(special);
+   UNTIL (special = 'Y') OR (special = 'y') OR (special = 'N') OR (special = 'n');
 
-   repeat
+   REPEAT
       clrscr;
       gotoxy(40,12);
-      write('How long is your password? ');
-      readln(plength);
-      for i := 1 to length(plength) do
-      begin
-	 { writeln('The current value for index ' , i, ' is: ', plength[i]); }
+      WRITE('How long is your password? ');
+      READLN(plength);
+      FOR i := 1 TO length(plength) DO
+      BEGIN
 	 isanumber := isnumber(plength[i]);
-	 if not (isanumber) then
-	 begin
+	 IF NOT (isanumber) THEN
+	 BEGIN
 	    gotoxy(40,13);
-	    writeln('This is not a number!');
+	    WRITELN('This is NOT a number!');
 	    delay(3000);
 	    break;
-	 end;
-      end;
-   until isanumber;
-   {Convert the string into a number an sends the value to a new variable}
+	 END;
+      END;
+   UNTIL isanumber;
+
+   {Convert the string into a number an sends the value TO a new variable}
    val(plength, nlength, error);
-   writeln(nlength);
+   WRITELN(nlength);
 	     	     
    passwordgenerator(nlength, number, special);
 
    clrscr;
    gotoxy(40,12);
-   writeln('Press any key to exit.');
+   WRITELN('Press any key to exit.');
    readkey;
    clrscr;
 
-end.
+END.
