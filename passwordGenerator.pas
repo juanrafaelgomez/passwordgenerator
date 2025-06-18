@@ -1,4 +1,5 @@
 {$mode fpc}
+{PROGRAM passwordgenerator;}
 
 { TODO :: FIX PASSWORDGENERATOR PROCEDURE }
 PROGRAM  passwordgenerator;
