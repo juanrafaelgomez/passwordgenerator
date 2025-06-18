@@ -1,6 +1,7 @@
 {$mode fpc}
 
 { TODO :: FIX PASSWORDGENERATOR PROCEDURE }
+{ HOW CAN I ADD MORE OPTIONS? }
 PROGRAM  passwordgenerator;
 
 uses crt, sysutils, character; 
